@@ -1,25 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import getCases from '../../utils/getCases';
 
 function LandingPage() {
-    const [names, setNames] = useState([]);
+    let callGetCases = async () => {
+        let res = await getCases(1);
+        console.log(res);
+    }
+    
+    const [actualCases, setActualCases] = useState([]);
 
     useEffect(() => {
         let apiCall = async () => {
-            const response = await axios.get('http://127.0.0.1:5000/');
-            console.log(response.data.names);
-            setNames(response.data.names);
+            const response = await axios.get('http://127.0.0.1:5000/testcases/1');
+            console.log(response.data.cases);
+            setActualCases(response.data.cases);
         }
         apiCall();
-    }, []); // Empty dependency array to call the API only once when the component mounts
+    }, []);
 
     return (
         <div>
+            <h1>Number of cases: {actualCases.length}</h1>
             {
-                names.map((name, index) => {
-                    return <h1 key={index}>{name}</h1>; // Added return and key
-                })
+                actualCases.map((caseItem, index) => (
+                    <h1 key={index}>
+                        Expected Output: {caseItem.expected_output} <br />
+                        Input: {caseItem.input}
+                    </h1>
+                ))
             }
+
         </div>
     );
 }
