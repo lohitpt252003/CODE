@@ -28,13 +28,13 @@ function TestCaseCard(props) {
   }
 
   const handleCopyExpectedOutput = (index) => {
-    navigator.clipboard.writeText(props.expected_output)
+    navigator.clipboard.writeText(props.expectedOutput)
        .then(() => handleInfo(`Expected Output ${index} copied to clipboard!`))
        .catch((error) => handleWarning(`Error copying expected output ${index} to clipboard: ` + error.message));
   }
 
   const handleCopyActualOutput = (index) => {
-    navigator.clipboard.writeText(props.actual_output)
+    navigator.clipboard.writeText(actualOutput)
      .then(() => handleInfo(`Actual Output ${index} copied to clipboard!`))
      .catch((error) => handleWarning(`Error copying actual output ${index} to clipboard: ` + error.message));
   }
@@ -65,18 +65,18 @@ function TestCaseCard(props) {
     const code = props.code.trim();
     const language = props.language;
     const input = props.input.trim() || '';
-    const expected_output = props.expected_output.trim() || '';
+    const expectedOutput = props.expectedOutput.trim() || '';
 
     try {
       const response = await getOutput(language, code, input);
       setActualOutput(response);
 
-      if (response.trim() === expected_output.trim()) {
+      if (response.trim() === expectedOutput.trim()) {
         handleSuccess(`Test Case ${props.index + 1} passed!`);
       }
       else {
         handleError(
-          `Test Case ${props.index + 1} failed! Expected: ${expected_output}, but got: ${response}`
+          `Test Case ${props.index + 1} failed! Expected: ${expectedOutput}, but got: ${response}`
         );
       }
     }
@@ -91,7 +91,7 @@ function TestCaseCard(props) {
       <div>
           <ToastContainer />
           <h3>Test Case {props.index !== undefined ? props.index + 1 : 1}</h3>
-          <p>Expected Output: {props.expected_output}</p>
+          <p>Expected Output: {props.expectedOutput}</p>
           <p>Input: {props.input}</p>
           <p>Actual Output: {actualOutput}</p>
           <button onClick={handleRunTestCase}>{isLoading ? `Running Testacse ${props.index + 1} .....`  : `Run Testcase ${props.index + 1}`}</button>

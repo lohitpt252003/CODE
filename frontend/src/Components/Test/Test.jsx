@@ -2,8 +2,8 @@ import TestCaseCard from "../TestCaseCard/TestCaseCard";
 
 function Test() {
     return <TestCaseCard 
-                actual_output = "123"
-                expected_output = "456"
+                actualOutput = "123"
+                expectedOutput = "456"
                 input = "789"
                 index = {0}
                 code = 'print(456)'
