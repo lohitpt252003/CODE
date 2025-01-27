@@ -1,11 +1,9 @@
-import TestCases from "../TestCases/TestCases";
+import Problem from "../Problem/Problem";
 
 function Test() {
-    return <TestCases
-                id = {1}
-                language = 'python'
-                testCaseType = 'Visible Testcases'
-            />
+    return <Problem 
+        id = {1}
+    />
 }
 
 export default Test;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Editor } from "@monaco-editor/react";
 import TestCaseCard from '../TestCaseCard/TestCaseCard';
 import executeCode from '../../utils/codeExecution';
@@ -25,24 +24,12 @@ function TestCases(props) {
       // console.log(newValue);
     };
 
-    const [cases, setCases] = useState([]);
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await axios.get(`/problems/${props.id}`);
-            // console.log(response.data.testcases.visible);
-            setCases(response.data.testcases.visible);
-          }
-          catch (error) {
-            console.error("Error fetching data:", error);
-          }
-        };
+    const [_testcases, set_testcases] = useState(props.testcases.visible);
+    // console.log(props.testcases);
     
-        fetchData();
-    }, []);
     const [runTestCases_message, setRunTestCases_message] = useState(`Run All Testcases`);
     const runTestCase = async (i) => {
-      const response = await executeCode(language, boilerplate, cases[i].input);
+      const response = await executeCode(language, boilerplate, _testcases[i].input);
       // console.log(response);
       setRunTestCases_message(`Runninng Testcase ${i + 1}`);
       let element = document.getElementById(`case-${i}`);
@@ -52,7 +39,7 @@ function TestCases(props) {
 
     const runAllTestCases = async () => {
       setRunTestCases_message('Running All Testcases...');
-      for (let i = 0; i < cases.length; i++) {
+      for (let i = 0; i < _testcases.length; i++) {
         await runTestCase(i);
       }
       setRunTestCases_message('Run All Testcases');
@@ -89,7 +76,7 @@ function TestCases(props) {
             />
 
             {
-                cases.map((_case, i) => 
+                _testcases.map((_case, i) => 
                 <TestCaseCard 
                     index = {i}
                     expectedOutput = {_case.expected_output}
