@@ -1,12 +1,9 @@
-import TestCaseCard from "../TestCaseCard/TestCaseCard";
+import TestCases from "../TestCases/TestCases";
 
 function Test() {
-    return <TestCaseCard 
-                actualOutput = "123"
-                expectedOutput = "456"
-                input = "789"
-                index = {0}
-                code = 'print(456)'
+    return <TestCases
+                id = "1"
+                code = "print(input())"
                 language = 'python'
             />
 }

@@ -42,7 +42,7 @@ const executeCode = async (language, code, input = '') => {
     if (response.data && response.data.run) {
       const { stdout, stderr } = response.data.run;
       return {
-        output: stdout || stderr || 'No output.',
+        output: stdout || stderr || '',
         status: 'success',
       };
     }
