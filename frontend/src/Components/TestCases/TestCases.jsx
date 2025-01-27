@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Editor } from "@monaco-editor/react";
 import TestCaseCard from '../TestCaseCard/TestCaseCard';
 import executeCode from '../../utils/codeExecution';
+
 function TestCases(props) {
     const [language, setLanguage] = useState("cpp");
     const languageMap = {
@@ -21,16 +22,16 @@ function TestCases(props) {
     };
     const handleEditorChange = (newValue) => {
       setBoilerplate(newValue);
-      console.log(newValue);
+      // console.log(newValue);
     };
 
     const [cases, setCases] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await axios.get(`/testcases/${props.id}`);
-            // console.log(response.data.cases);
-            setCases(response.data.cases);
+            const response = await axios.get(`/problems/${props.id}`);
+            // console.log(response.data.testcases.visible);
+            setCases(response.data.testcases.visible);
           }
           catch (error) {
             console.error("Error fetching data:", error);
@@ -59,12 +60,9 @@ function TestCases(props) {
 
     // console.log(actualOutputs);
     
-    
-    
-
     return (
         <div>
-            <h2>Test Cases</h2>
+            <h2>{props.testCaseType}</h2>
             <button onClick={runAllTestCases}>{runTestCases_message}</button>
             <select
               value={language}
