@@ -1,0 +1,41 @@
+/* Footbar.css */
+
+.Footbar-footbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .Footbar-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .Footbar-text {
+    margin-bottom: 0.5rem;
+  }
+  
+  .Footbar-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .Footbar-item {
+  }
+  
+  .Footbar-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+  }
+  
+  .Footbar-link:hover {
+    color: #f0a500;
+  }

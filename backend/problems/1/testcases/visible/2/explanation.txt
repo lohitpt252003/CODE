@@ -1,1 +1,1 @@
-Explanation for case 2
+Since input is 1 we need to print 1

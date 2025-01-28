@@ -1,1 +1,1 @@
-Explanation for case 1
+Since input is 0 we just need to print 0

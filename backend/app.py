@@ -78,6 +78,17 @@ def get_statement(id):
     with open(statement_path, 'r') as file:
         return file.read()
 
+def get_problem_name(id):
+    dir_path = f'./problems/{id}'
+    problem_name_path = f'{dir_path}/problem_name/problem_name.txt'
+    
+    # Check if the statement file exists
+    if not os.path.exists(problem_name_path):
+        return None  # Return None if the statement file doesn't exist
+    
+    # Read and return the content of the statement file
+    with open(problem_name_path, 'r') as file:
+        return file.read()
 # Route for testing
 @app.route('/')
 def hello_world():
@@ -91,6 +102,10 @@ def get_problem(id):
     if not statement:
         return jsonify({"message": "Statement file not found!"}), 404
     
+    problem_name = get_problem_name(id)
+    if not problem_name:
+        return jsonify({"message": "Problem name file not found!"}), 404
+    
     # Fetch visible and hidden test cases
     visible_cases = get_visible_testcases(id)
     hidden_cases = get_hidden_testcases(id)
@@ -101,10 +116,40 @@ def get_problem(id):
         "hidden": hidden_cases
     }
     return jsonify({
+        "name": problem_name,
         "statement": statement,
         "testcases": testcases
     })
     
+@app.route('/problems', methods=['GET'])
+def get_problems():
+    dir_path = './problems'
+    problem_names = []
+    # pth = './problems/1/problem_name/problem_name.txt'
+    
+    # Loop through all problem directories in './problems'
+    for problem in os.listdir(dir_path):
+        problem_dir = f'{dir_path}/{problem}'
+        # Check if it's a directory
+        if os.path.isdir(problem_dir):
+            problem_name_file = f'{problem_dir}/problem_name/problem_name.txt'
+            # print(problem_name_file)
+            with open(problem_name_file, 'r') as file:
+                problem_name = file.read().strip()  # Read and remove any extra whitespace or newlines
+                # print(problem_name)
+                problem_names.append(problem_name)
+
+            # Read the problem name from 'problems_name.txt' if the file exists
+            # if os.path.exists(problem_name_file):
+            #     print(1)
+            #     with open(problem_name_file, 'r') as file:
+            #         problem_name = file.read().strip()  # Read and remove any extra whitespace or newlines
+            #         print(problem_name)
+            #         problem_names.append(problem_name)
+    
+    # Return the list of problem names
+    return jsonify(problem_names)
+
 
 from run_code.run_code import run_code 
 @app.route('/submit/<id>', methods=['POST'])  # Use POST for form submissions

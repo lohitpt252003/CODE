@@ -1,1 +1,1 @@
-This is statemtnt for problem 1
+You are given a number and you need to print it
