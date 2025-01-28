@@ -24,6 +24,7 @@ function Problem(props) {
   return (
     <div>
       <p>{problemStatement}</p>
+      <form action="" method="get"></form>
       <TestCases 
         id = {props.id}
         testcases = {testcases}

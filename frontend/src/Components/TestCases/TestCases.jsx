@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Editor } from "@monaco-editor/react";
+import axios from 'axios';
 import TestCaseCard from '../TestCaseCard/TestCaseCard';
 import executeCode from '../../utils/codeExecution';
 
@@ -24,8 +25,27 @@ function TestCases(props) {
       // console.log(newValue);
     };
 
-    const [_testcases, set_testcases] = useState(props.testcases.visible);
-    // console.log(props.testcases);
+    const [_testcases, set_testcases] = useState([]);
+    // let testcases;
+    // console.log(props.testcases.visible);
+    // console.log(props.testcases.visible.length);
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`/problems/${props.id}`);
+          console.log(response.data.testcases.visible);
+          set_testcases(props.type === 'visible' ? response.data.testcases.visible : response.data.testcases.hidden);
+        }
+        catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+  
+      fetchData();
+      // console.log();
+      
+    }, []);
+    
     
     const [runTestCases_message, setRunTestCases_message] = useState(`Run All Testcases`);
     const runTestCase = async (i) => {
@@ -71,7 +91,6 @@ function TestCases(props) {
                 scrollBeyondLastLine: false,
                 smoothScrolling: true,
               }}
-              // onChange={(newValue) => setBoilerplate(newValue)} // Update boilerplate as user edits
               onChange={handleEditorChange}
             />
 
