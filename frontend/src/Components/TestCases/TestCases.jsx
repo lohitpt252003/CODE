@@ -33,7 +33,7 @@ function TestCases(props) {
       const fetchData = async () => {
         try {
           const response = await axios.get(`/problems/${props.id}`);
-          console.log(response.data.testcases.visible);
+          // console.log(response.data.testcases.visible);
           set_testcases(props.type === 'visible' ? response.data.testcases.visible : response.data.testcases.hidden);
         }
         catch (error) {
@@ -65,11 +65,33 @@ function TestCases(props) {
       setRunTestCases_message('Run All Testcases');
     }
 
+    const [message, setMessage] = useState('');
+    const handleSubmit = () => {
+      const formData = new FormData();
+      formData.append("lang", language);
+      formData.append("code", boilerplate);
+      axios.post(`/submit/${props.id}`, formData)
+       .then(response => {
+          console.log(response.data.status);
+          if (response.data.status === 'success') {
+            setMessage('All cases passed\n')
+          }
+          else {
+            setMessage(`${response.data.message}\ninput: ${response.data.input}\noutput: ${response.data.output}\nexpected_output: ${response.data.expected_output}`);
+          }
+        })
+       .catch(error => {
+          console.error("Error submitting code:", error);
+        });
+    }
+
     // console.log(actualOutputs);
     
     return (
         <div>
+          <h1 id="TestCases-message">{message}</h1>
             <h2>{props.testCaseType}</h2>
+            <button onClick={handleSubmit}>Submit your code</button>
             <button onClick={runAllTestCases}>{runTestCases_message}</button>
             <select
               value={language}
@@ -82,17 +104,19 @@ function TestCases(props) {
               ))}
             </select>
 
-            <Editor
-              height="50vh"
-              language={language} // Correct language binding
-              value={boilerplate} // Dynamically set the editor content
-              theme="vs-dark"
-              options={{
-                scrollBeyondLastLine: false,
-                smoothScrolling: true,
-              }}
-              onChange={handleEditorChange}
-            />
+            <div id="TestCases-Editor">
+              <Editor
+                height="50vh"
+                language={language} // Correct language binding
+                value={boilerplate} // Dynamically set the editor content
+                theme="vs-dark"
+                options={{
+                  scrollBeyondLastLine: false,
+                  smoothScrolling: true,
+                }}
+                onChange={handleEditorChange}
+              />
+            </div>
 
             {
                 _testcases.map((_case, i) => 

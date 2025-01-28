@@ -104,6 +104,71 @@ def get_problem(id):
         "statement": statement,
         "testcases": testcases
     })
+    
+
+from run_code.run_code import run_code 
+@app.route('/submit/<id>', methods=['POST'])  # Use POST for form submissions
+def submit_code(id):
+    # Get form data
+    lang = request.form.get('lang')
+    code = request.form.get('code')
+    
+    # return lang.strip()
+    # return code.strip()
+
+    # Validate language field
+    if not lang or lang.strip() == '':
+        # print('language is empty')
+        return jsonify({"message": "Language cannot be empty!"})
+
+    # Validate code field
+    if not code or code.strip() == '':
+        return jsonify({"message": "Code cannot be empty!"})
+
+    # Process and print the submitted data
+    visible_cases = get_visible_testcases(id)
+    for case in visible_cases:
+        input = case['input'].strip()
+        expected_output = case['expected_output'].strip()
+        output = run_code(lang, code, input)
+        # print(input, expected_output, output)
+        
+        if output.endswith("\n"):
+            output = output.rstrip("\n")
+        if expected_output.endswith("\n"):
+            expected_output = expected_output.rstrip("\n")
+        if expected_output != output:
+            return jsonify({
+                "status": "failure",
+                "input": input,
+                "expected_output": expected_output,
+                "output": output,
+                "message": "Visible Test case failed!"
+            })
+    
+    # hidden_cases = get_hidden_testcases(id)
+    # for case in hidden_cases:
+    #     input = case['input'].strip()
+    #     expected_output = case['expected_output'].strip()
+    #     output = run_code(lang, code, input)
+    #     if output.endswith("\n"):
+    #         output = output.rstrip("\n")
+    #     if expected_output.endswith("\n"):
+    #         expected_output = expected_output.rstrip("\n")
+    #     if expected_output != output:
+    #         return jsonify({
+    #             "status": "failure",
+    #             "input": input,
+    #             "expected_output": expected_output,
+    #             "output": output,
+    #             "message": "Hidden test case failed!"
+    #         })
+    
+    # Return success response
+    return jsonify({
+        "status": "success",
+        "message": "Congratulations!\nAll cases passed!\nCode ACCEPTED"
+        }), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
