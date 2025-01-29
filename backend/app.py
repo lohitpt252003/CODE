@@ -215,5 +215,36 @@ def submit_code(id):
         "message": "Congratulations!\nAll cases passed!\nCode ACCEPTED"
         }), 200
 
+@app.route('/contests/<id>', methods=['GET'])
+def get_contest_problems(id):
+    path_dir = f'./contests/{id}'
+    problems = []
+    if os.path.isdir(path_dir):
+        problems_file = f'{path_dir}/problems.txt'
+        if os.path.exists(problems_file):
+            with open(problems_file, 'r') as file:
+                problems = file.read().split(' ')
+    
+    return jsonify(problems)
+
+
+@app.route('/contests', methods=['GET'])
+def get_contests():
+    path_dir = './contests'
+    contests = []
+    for contest in os.listdir(path_dir):
+        contest_dir = f'{path_dir}/{contest}'
+        if os.path.isdir(contest_dir):
+            problems_file = f'{contest_dir}/problems.txt'
+            if os.path.exists(problems_file):
+                with open(problems_file, 'r') as file:
+                    problems = file.read().split(',')
+                    contests.append({
+                        "id": contest,
+                        "problems": problems
+                    })
+    
+    return jsonify(contests)
+
 if __name__ == '__main__':
     app.run(debug=True)

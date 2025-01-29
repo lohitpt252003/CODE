@@ -89,7 +89,7 @@ function TestCases(props) {
     
     return (
         <div>
-          <h1 id="TestCases-message">{message}</h1>
+          <h1 id="TestCases-message"><pre>{message}</pre></h1>
             <h2>{props.testCaseType}</h2>
             <button onClick={handleSubmit}>Submit your code</button>
             <button onClick={runAllTestCases}>{runTestCases_message}</button>

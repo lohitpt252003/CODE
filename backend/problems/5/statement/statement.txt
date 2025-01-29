@@ -1,0 +1,2 @@
+Print the array in given format
+See sample testcases for more clarity

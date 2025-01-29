@@ -1,0 +1,1 @@
+You are given a integer and you need to square the number and print it

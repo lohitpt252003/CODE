@@ -71,9 +71,9 @@ function TestCaseCard(props) {
           {/* <button onClick={showNotification}>Click</button> */}
           {/* <NotificationContainer /> */}
           <h3>Test Case {props.index !== undefined ? props.index + 1 : 1}</h3>
-          <p>Expected Output: {props.expectedOutput}</p>
-          <p>Input: {props.input}</p>
-          <p  id={`case-${props.index}`}>{actualOutput}</p>
+          <p>Expected Output: <pre>{props.expectedOutput}</pre></p>
+          <p>Input: <pre>{props.input}</pre></p>
+          <p  id={`case-${props.index}`}><pre>{actualOutput}</pre></p>
           <button onClick={handleRunTestCase}>{isLoading ? `Running Testacse ${props.index + 1} .....`  : `Run Testcase ${props.index + 1}`}</button>
           <button onClick={() => props.handleDelete(props.index)}>Delete</button>
           <button onClick={() => handleCopyInput(props.index + 1)}>Copy Input <FaRegClipboard size={18} /></button>

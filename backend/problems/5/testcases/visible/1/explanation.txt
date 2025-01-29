@@ -1,0 +1,1 @@
+We can write array of (1) as [1]

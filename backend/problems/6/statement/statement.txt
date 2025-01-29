@@ -1,0 +1,1 @@
+You are given a string and you need to print it's reverse.

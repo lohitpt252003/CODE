@@ -1,0 +1,2 @@
+You are given "abc" and you need to add "abc" to it
+Therefore the output is abcabc
