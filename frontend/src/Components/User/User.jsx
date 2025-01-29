@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../Navbar/Navbar'
 
+
+
 function User() {
     const { id } = useParams();
     const [user, setUser] = useState([]);

@@ -21,6 +21,7 @@ function App() {
         <Route path='/contests/:id' element={<Contest />}/>
         <Route path='/users' element={<Users />}/>
         <Route path='/users/:id' element={<User />}/>
+        <Route path='/test' element={<Test />}/>
       </Routes>
     </Router>
   );
