@@ -1,0 +1,7 @@
+{
+    "id": 2,
+    "username": "user2",
+    "email": "user2@example.com",
+    "solved_problems": [1, 3, 5],
+    "contests_joined": [2]
+}

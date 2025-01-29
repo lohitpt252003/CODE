@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
+import json
 
 app = Flask(__name__)
 CORS(app, origins='*')
@@ -245,6 +246,45 @@ def get_contests():
                     })
     
     return jsonify(contests)
+
+
+@app.route('/users/<id>', methods=['GET'])
+def get_user(id):
+    user_dir = f'./users/user{id}.json'
+
+    # Check if file exists
+    if not os.path.exists(user_dir):
+        return jsonify({"error": "User not found"}), 404  # Return 404 if not found
+
+    # Read JSON data safely
+    with open(user_dir, 'r') as file:
+        user_data = json.load(file)
+
+    return jsonify(user_data)
+
+@app.route('/users', methods=['GET'])
+def get_users():
+    users_dir = './users'
+    users = []
+
+    # Ensure the directory exists
+    if not os.path.exists(users_dir):
+        return jsonify({"error": "Users directory not found"}), 404
+
+    # Iterate over files in the directory
+    for filename in os.listdir(users_dir):
+        file_path = os.path.join(users_dir, filename)
+
+        # Ensure it's a JSON file
+        if filename.endswith('.json') and os.path.isfile(file_path):
+            with open(file_path, 'r') as file:
+                try:
+                    current_user = json.load(file)  # Load JSON data
+                    users.append(current_user)      # Append user data
+                except json.JSONDecodeError:
+                    return jsonify({"error": f"Invalid JSON in {filename}"}), 400
+
+    return jsonify(users)
 
 if __name__ == '__main__':
     app.run(debug=True)

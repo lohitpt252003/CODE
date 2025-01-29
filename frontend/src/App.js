@@ -5,6 +5,9 @@ import Problem from './Components/Problem/Problem';
 import Problems from './Components/Problems/Problems';
 import Contests from './Components/Contests/Contests';
 import Contest from './Components/Contest/Contest';
+import Users from './Components/Users/Users';
+import User from './Components/User/User';
+
 import Test from './Components/Test/Test';
 
 function App() {
@@ -16,6 +19,8 @@ function App() {
         <Route path='/problems/:id' element={<Problem />}/>
         <Route path='/contests/' element={<Contests />}/>
         <Route path='/contests/:id' element={<Contest />}/>
+        <Route path='/users' element={<Users />}/>
+        <Route path='/users/:id' element={<User />}/>
       </Routes>
     </Router>
   );
